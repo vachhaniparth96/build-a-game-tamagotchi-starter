@@ -1,5 +1,3 @@
-<img src="https://i.imgur.com/B3jbImk.jpg">
-
 # Let's Code Tamagotchi!
 
 ## Intro
@@ -321,7 +319,7 @@ button:active{
 </details>
 
 
-### Initialize the State Variables
+## `main.js` - Initialize the State Variables
 
 Declare, but don't initialize, the application-wide state variables.
 
@@ -370,7 +368,7 @@ function init() {
 
 ```
 
-Next, let's capture the dom elements that will be used in our game 
+Next, let's capture the dom elements that will be used in our game: 
 
 ```js
 /*----- cached elements  -----*/
@@ -386,10 +384,12 @@ const gamePlayAgainEl = document.querySelector("#restart");
 
 
 ```
+
 After that, let's add an `INIT_STATE` object that will provide our starting values for our state variable. 
 
 
 ```js
+
 // script.js
 /*----- constants -----*/
 
@@ -418,10 +418,7 @@ function init() {
   render()
 }
 
-
-
 ```
-
 
 ### Stub  the `runGame()` function
 
