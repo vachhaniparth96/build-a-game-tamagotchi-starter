@@ -9,7 +9,7 @@ So far, we've covered the fundamentals of:
 - JavaScript
 - The DOM
 
-Now let's bring these technologies together and learn more about programming as we code the fun game of [Tamagotchi]()!
+Now let's bring these technologies together and learn more about programming as we code the fun game of [Tamagotchi](https://en.wikipedia.org/wiki/Tamagotchi)!
 
 As I code, I will be following the concepts we covered in the [Guide on How to Build a Browser Game](https://gist.github.com/jim-clark/6f1919291f6007b2c0b2c93d925d6bac).
 
@@ -23,7 +23,7 @@ I hope you're as excited as I am - let's get started!
 
 Hopefully, you're aware of how Tamagotchi is played.
 
-If not, you can read about it [here]), but in summary:
+If not, you can read about it [here](https://en.wikipedia.org/wiki/Tamagotchi#Gameplay), but in summary:
 
 - It's a one player game.
 - The player is tasked with keeping a creature alive as long as possible.
