@@ -131,8 +131,13 @@ We will need to add elements in **index.html** for the following from top to bot
 - The heading
 - Three buttons
 - The stat label 
-- The stat numbers
+- The stat values 
+
+We will also include: 
+
 - The Tama graphic
+- A gameover message
+- A restart button
 
 If an element's content is going to come from the `render()` function, you may want to temporarily include mocked content in the HTML to help with layout and styling. However, once the content is being provided by the `render()` function, you should remove the mocked content from **index.html**.
 
@@ -140,26 +145,162 @@ Along the way, we'll code CSS in **style.css** to layout and style the UI.
 	
 <details>
 <summary>
- 🆘 Click for help if you've tried but unable to get your project to look like mine.
+ Example HTML / CSS / JS starter code 
 </summary>
 
 ```html
 <!-- index.html -->
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="./js/main.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <h1 class="game-title">Tamagotchi Code Along</h1>
+    </header>
+
+    <main class="container">
+         <!-- game interface / UI section -->
+        <section id="controller" class="button-wrapper">
+            <button>play</button>
+            <button>feed</button>
+            <button>sleep</button>
+        </section>
+
+        <!-- game data section -->
+        <section id="stat-display" class="stats-wrapper">
+            <p >Happiness: <span id="boredom-stat">...</span></p>
+            <p >Hunger: <span id="hunger-stat">...</span></p>
+            <p >Tiredness: <span id="sleepiness-stat">...</span></p>
+        </section>
+
+        <!-- game display / messaging section -->
+        <section id="game-state" class="game-state-wrapper">
+            <h2 id="tama-message" class="hidden">Oh no! You starved!</h2>
+            <img id="tama-graphic" src="../imgs/wolf-1.png" class="game-graphic" />
+            <button id="restart" class="hidden">Play Again</button>
+        </section>
+    </main>
+
+</body>
+
 </html>
 ```
 
 ```css
 /* style.css */
 
-* {
-  box-sizing: border-box;
+/* background color: #e6e6e6 */
+/* button color:  #4597f8*/
+
+/* global styles  */
+*{
+    box-sizing: border-box;
 }
 
+body{
+    min-height: 100vh;
+    background-color: #e6e6e6;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+/* element styles */
+h1{
+    font-size: 3.5rem;
+}
+h2 {
+    font-size: 1.7rem;
+}
+
+/* layout */
+.container {
+    max-width: 90vw;
+    margin: 0 auto;
+}
+
+.button-wrapper{
+    display: flex;
+    justify-content: space-around;
+}
+
+.stats-wrapper{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    text-align: center;
+}
+
+.game-state-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center ;
+}
+
+/* headings */
+.game-title{
+    text-align: center;
+}
+
+/* button styling*/
+button{
+    font-size: 1.5rem;
+    line-height: 1em;
+    padding: 1.5rem;
+    background-color: #4597f8;
+    color: white;
+    border: 0;
+    border-radius: .5rem;
+    transition: background-color 2s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+button:active{
+    background-color: #2e6bb6;
+}
+
+/* images */
+#tama-graphic{
+ max-height: 33vmin;
+}
+.hidden{
+    visibility: hidden;
+}
+
+#tama-graphic:hover {
+
+    /* source: https://www.w3schools.com/howto/howto_css_shake_image.asp */
+    /* Start the shake animation and make the animation last for 0.5 seconds */
+    animation: shake 0.5s;
+  
+    /* When the animation is finished, start again */
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); 
+    }
+  }
 
 ```
 
 ```js
+
 /*----- constants -----*/
 
 
@@ -179,7 +320,6 @@ Along the way, we'll code CSS in **style.css** to layout and style the UI.
 
 </details>
 
-> 🚀 Please navigate to the next page where we will declare and initialize the state variables in **script.js**...
 
 ### Initialize the State Variables
 
@@ -197,10 +337,6 @@ We will also initialize our async game logic using a `setInterval` with calls a 
 
 The last line in `init()` should call `render();` to render that state to the DOM for the first time.
 
-<details>
-<summary>
- 🆘 Click for help if you've tried but unable to get your code to run successfully.
-</summary>
 
 ```js
 // script.js
@@ -229,61 +365,41 @@ init();
 // Initialize all state, then call render()
 function init() {
   
-  
-}
-
-function render() {
-  
 }
 
 
-function runGame(){
-    
-}
 ```
 
-</details>
+Next, let's capture the dom elements that will be used in our game 
 
-> 🚀 Please navigate to the next page where we will code the `render()` function...
+```js
+/*----- cached elements  -----*/
 
-### Code the `render()` function
+const boredomStatEl = document.querySelector("#boredom-stat");
+const hungerStatEl = document.querySelector("#hunger-stat");
+const sleepyStatEl = document.querySelector("#sleepiness-stat");
 
-Stub up the main `render()` function.
-  
-Call and code a `renderStat()` function.
+const gameMessageEl = document.querySelector("#tama-message");
+
+const gameBtnEls = document.querySelectorAll("button");
+const gamePlayAgainEl = document.querySelector("#restart");
 
 
+```
+After that, let's add an `INIT_STATE` object that will provide our starting values for our state variable. 
 
-<details>
-<summary>
- 🆘 Click for help if you've tried but unable to get your code to run successfully.
-</summary>
 
 ```js
 // script.js
+/*----- constants -----*/
 
+const INIT_STATE = {
+  boredom: 0,
+  hunger: 0,
+  sleepiness: 0,
+};
 
-/*----- state variables -----*/
-let boredom;  // integer
-let hunger;  // integer
-let sleepiness;  // integer 
-
-let age // integer
-let cycles // integer
-
-let timer // object
-let interval // integer
-
-/*----- cached elements  -----*/
-
-const boredomStatEl = document.querySelector("#boredom-stat")
-const hungerStatEl = document.querySelector("#hunger-stat")
-const sleepyStatEl = document.querySelector("#sleepiness-stat")
-
-const gameBtnEls = document.querySelectorAll("button")
-
-/*----- event listeners -----*/
-
+// ... other code ... 
 
 /*----- functions -----*/
 init();
@@ -291,92 +407,225 @@ init();
 // Initialize all state, then call render()
 function init() {
   
-  boredom = 0;  // integer
-  hunger = 0;  // integer
-  sleepiness =0 ;  // integer
+  state = {...INIT_STATE} // create a copy of the default data
+
   age = 0; // integer
   cycles = 0;  // integer
 
   interval = 5000 // integer
   timer = setInterval(runGame, interval)// object
   
+  render()
 }
 
+
+
+```
+
+
+### Stub  the `runGame()` function
+
+```js
+
+function runGame(){
+
+}
+
+```
+
+### Stub up the main `render()` function.
+  
+
+
+
+
+### Call and code a `renderStat()` function.
+
+```js
 function render() {
   renderStats()
 }
 
+function renderStats(){
+  boredomStatEl.textContent = state.boredom;
+  hungerStatEl.textContent = state.hunger;
+  sleepyStatEl.textContent = state.sleepiness;
+}
+
 ```
-</details>
-
-### Code the `runGame` function
-
-Stub up the main `render()` function.
-  
-Call and code a `renderStat()` function.
-
-
-<details>
-<summary>
- 🆘 Click for help if you've tried but unable to get your code to run successfully.
-</summary>
-</details>
 
 ### Code the `gameOver()` function
 
 
-<details>
-<summary>
- 🆘 Click for help if you've tried but unable to get your code to run successfully.
-</summary>
-</details>
-
-	
 ### Code the `handleBtnClick` event listener function
 
 > _"In response to user interaction, update all impacted state, then call render()"_
 
 Time to handle when the user clicks a game button!
 
-We'll be sure to use event delegation.
-	
 Let's add an event listener for when the `[Play]` `[Eat]` `[Sleep]` buttons is clicked are clicked .
 
 ```js 
 
-// example of event delegation
+// example of event listener
+
+
 
 ```
-
-<details>
-<summary>
- 🆘 Click for help if you've tried but unable to get your code to run successfully.
-</summary>
+### Code the `gameOver()` UI updates
 
 ```js
 
-// add solution code
-
 ```
 
-</details>
 
-### Code the `ageUp()` function
-
-<details>
-<summary>
- 🆘 Click for help if you've tried but unable to get your code to run successfully.
-</summary>
-
-```js
-
-// add solution code 
-```
-
-</details>
-
-Congrats on coding a cool game of Tamagotchi!
+Congrats on coding a cool game of Tamagotchi! 🎉
 
 Hopefully, you're inspired to apply the process we followed today to code another game!
 
-> 🚀 Please navigate to the next page where you will submit the link to your Repl...
+<br>
+<details>
+<summary>
+ 🆘 Click for help if you've tried but unable to get your code to run successfully.
+</summary>
+
+```js
+
+// script.js
+
+/*----- constants -----*/
+
+const INIT_STATE = {
+  boredom: 0,
+  hunger: 0,
+  sleepiness: 0,
+};
+
+// game engine - icebox feature
+
+/*----- state variables -----*/
+let state;
+
+let age; // integer
+let cycles; // integer
+
+let timer; // object
+let interval; // integer
+
+/*----- cached elements  -----*/
+
+const boredomStatEl = document.querySelector("#boredom-stat");
+const hungerStatEl = document.querySelector("#hunger-stat");
+const sleepyStatEl = document.querySelector("#sleepiness-stat");
+
+const gameMessageEl = document.querySelector("#tama-message");
+
+const gameBtnEls = document.querySelectorAll("button");
+const gamePlayAgainEl = document.querySelector("#restart");
+
+/*----- event listeners -----*/
+gameBtnEls.forEach((btn) => btn.addEventListener("click", handleBtnClick));
+gamePlayAgainEl.addEventListener("click", init);
+
+/*----- functions -----*/
+
+function handleBtnClick(e) {
+  const convertProp = {
+    feed: "hunger",
+    sleep: "sleepiness",
+    play: "boredom",
+  };
+  const btnText = convertProp[e.target.innerText];
+  const newValue = -1 * (3 + Math.floor(Math.random() * 3));
+
+  updateStat(btnText, newValue);
+
+  render();
+}
+
+// Initialize all state, then call render()
+function init() {
+  resetUI();
+  state = { ...INIT_STATE };
+
+  // Icebox - add aging cycle
+
+  age = 0; // integer
+  cycles = 0; // integer
+
+  interval = 1000; // integer
+  timer = setInterval(runGame, interval); // object
+
+  render();
+}
+
+function render() {
+  renderStats();
+  // Icebox - add conditional animations function call
+}
+
+function renderStats() {
+  boredomStatEl.textContent = state.boredom;
+  hungerStatEl.textContent = state.hunger;
+  sleepyStatEl.textContent = state.sleepiness;
+}
+
+function runGame() {
+  cycles++;
+
+  if (continueGame()) {
+    updateStats();
+    // Icebox - call checkAge helper function to age up Tama
+  } else {
+    return gameOver();
+  }
+
+  render();
+}
+
+function continueGame() {
+  const testGame = Object.values(state).every((stat) => stat < 10);
+  return testGame;
+}
+
+function updateStats() {
+  for (key in state) {
+    updateStat(key, Math.floor(Math.random() * 3));
+  }
+}
+
+function updateStat(stat, value) {
+  if (state[stat] + value >= 0) {
+    state[stat] += value;
+  } else {
+    state[stat] = 0;
+  }
+}
+
+function gameOver() {
+  // alert player game over
+  gamePlayAgainEl.classList.remove("hidden");
+  gameMessageEl.classList.remove("hidden");
+
+  // stop timer
+  clearInterval(timer);
+}
+
+function resetUI() {
+  gamePlayAgainEl.classList.add("hidden");
+  gameMessageEl.classList.add("hidden");
+}
+
+init();
+
+```
+
+</details>
+
+
+### Icebox Features 
+
+
+- Code the `ageUp()` function
+
+- Add a `Game Engine` for added dynamic UI
