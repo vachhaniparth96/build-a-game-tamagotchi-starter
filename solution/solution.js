@@ -37,25 +37,34 @@ gamePlayAgainEl.addEventListener("click", init);
 /*----- functions -----*/
 
 function handleBtnClick(e) {
+  
+  // local conversion object
   const convertProp = {
     feed: "hunger",
     sleep: "sleepiness",
     play: "boredom",
   };
+  
+  // capture the button text and map it to the state property
   const btnText = convertProp[e.target.innerText];
+  
+  // calculate a random value between 0 -> 3 and convert it to a negative number
   const newValue = -1 * (3 + Math.floor(Math.random() * 3));
-
+  
+  // reuse update state, targeting the correct state property and providing a decrementing value 
   updateStat(btnText, newValue);
 
+  // update the user with new data info
   render();
 }
 
 // Initialize all state, then call render()
 function init() {
+  // clear the end-game message
   resetUI();
+  
+  // overwrite the old state with a copy of the original state values
   state = { ...INIT_STATE };
-
-  // Icebox - add aging cycle
 
   age = 0; // integer
   cycles = 0; // integer
@@ -79,11 +88,17 @@ function renderStats() {
 
 function runGame() {
   cycles++;
+  
 
   if (continueGame()) {
     updateStats();
+
     // Icebox - call checkAge helper function to age up Tama
+    // Icebox - add aging cycle to calculate aging up tama as a factor of cycles.
+    // Icebox - add a message render state or game engine for parsing the state > UI changes. 
+
   } else {
+    // if any stat is >= 10 -> end game cycle
     return gameOver();
   }
 
@@ -102,6 +117,7 @@ function updateStats() {
 }
 
 function updateStat(stat, value) {
+  // normalize data to prevent state values less than 0
   if (state[stat] + value >= 0) {
     state[stat] += value;
   } else {
@@ -113,12 +129,13 @@ function gameOver() {
   // alert player game over
   gamePlayAgainEl.classList.remove("hidden");
   gameMessageEl.classList.remove("hidden");
-
+  
   // stop timer
   clearInterval(timer);
 }
 
 function resetUI() {
+  // display game over messaging
   gamePlayAgainEl.classList.add("hidden");
   gameMessageEl.classList.add("hidden");
 }

@@ -16,7 +16,7 @@
     </header>
 
     <main class="container">
-         <!-- game interface / UI section -->
+        <!-- game interface / UI section -->
         <section id="controller" class="button-wrapper">
             <button>play</button>
             <button>feed</button>
@@ -25,14 +25,14 @@
 
         <!-- game data section -->
         <section id="stat-display" class="stats-wrapper">
-            <p >Happiness: <span id="boredom-stat">...</span></p>
-            <p >Hunger: <span id="hunger-stat">...</span></p>
-            <p >Tiredness: <span id="sleepiness-stat">...</span></p>
+            <p>Happiness: <span id="boredom-stat">...</span></p>
+            <p>Hunger: <span id="hunger-stat">...</span></p>
+            <p>Tiredness: <span id="sleepiness-stat">...</span></p>
         </section>
 
         <!-- game display / messaging section -->
         <section id="game-state" class="game-state-wrapper">
-            <h2 id="tama-message" class="hidden">Oh no! You starved!</h2>
+            <h2 id="tama-message" class="hidden">Oh no! <span id="message-content">You starved!</span></h2>
             <img id="tama-graphic" src="../imgs/wolf-1.png" class="game-graphic" />
             <button id="restart" class="hidden">Play Again</button>
         </section>
