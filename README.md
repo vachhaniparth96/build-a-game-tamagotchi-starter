@@ -105,7 +105,7 @@ Copy/paste the following comment headings to help you organize your app's code:
 
 The above headings are gold!
 
-> 🚀 With the setup complete, please navigate to the next page where we will begin the code-along!
+> 🚀 With the setup complete, please navigate to the next section where we will begin the code-along!
 
 ## Code away!
 
